@@ -4,7 +4,9 @@ require("dotenv").config();
 
 // NEW: Import the central sequelize instance and models directly
 const sequelize = require("./util/database");
-const User = require("./models/user"); // As you add more models, you'll import them here
+const User = require("./models/user");
+
+const userRoutes = require("./routes/users");
 
 const app = express();
 
@@ -14,7 +16,7 @@ app.use(express.json());
 // --- Add your API routes here later ---
 // Example:
 // const userRoutes = require('./routes/userRoutes');
-// app.use('/api/users', userRoutes);
+app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Project Management Tool API is running...");
