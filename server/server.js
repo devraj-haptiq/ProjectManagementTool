@@ -2,9 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
-// NEW: Import the central sequelize instance and models directly
-const sequelize = require("./util/database");
-const User = require("./models/user"); // As you add more models, you'll import them here
+const { sequelize, User, Project, Board, Card } = require("./models");
 
 const app = express();
 
