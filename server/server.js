@@ -2,10 +2,9 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
-const { sequelize, User, Project, Board, Card } = require("./models");
+const { User, Project, Board, Card } = require("./models");
 // NEW: Import the central sequelize instance and models directly
 const sequelize = require("./util/database");
-const User = require("./models/user");
 
 const userRoutes = require("./routes/users");
 
@@ -18,7 +17,7 @@ app.use(express.json());
 // Example:
 // const userRoutes = require('./routes/userRoutes');
 app.use("/api/users", userRoutes);
-
+app.use("/api/projects", require("./routes/projects"));
 app.get("/", (req, res) => {
   res.send("Project Management Tool API is running...");
 });
