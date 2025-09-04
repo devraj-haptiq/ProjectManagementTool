@@ -3,7 +3,7 @@
 const sequelize = require("../util/database");
 const User = require("./user");
 const Project = require("./project");
-const Task = require("./task"); // Renamed from Card
+const Task = require("./task");
 
 // --- Define One-to-Many Relationships ---
 // User-Project (as owner)
@@ -16,10 +16,10 @@ Project.belongsTo(User, {
   as: "owner",
 });
 
-// --- NEW: Define Direct Project-Task Relationship ---
+// Project-Task Relationship
 Project.hasMany(Task, {
   foreignKey: {
-    name: "projectId", // This creates a 'projectId' field in the 'tasks' table
+    name: "projectId",
     allowNull: false,
   },
   as: "tasks",
@@ -32,7 +32,21 @@ Task.belongsTo(Project, {
   as: "project",
 });
 
-// --- Many-to-Many for Assignees is still useful ---
+// --- NEW: Define Many-to-Many Relationships ---
+
+// Project Members (User <-> Project)
+User.belongsToMany(Project, {
+  through: "ProjectMembers", // This is the name of our join table
+  as: "memberProjects",
+  foreignKey: "userId",
+});
+Project.belongsToMany(User, {
+  through: "ProjectMembers",
+  as: "members",
+  foreignKey: "projectId",
+});
+
+// Task Assignees (User <-> Task)
 User.belongsToMany(Task, {
   through: "TaskAssignees", // Join table for task assignments
   as: "assignedTasks",
@@ -49,7 +63,7 @@ const db = {
   sequelize,
   User,
   Project,
-  Task, // Replaced Board with Task
+  Task,
 };
 
 module.exports = db;
