@@ -17,7 +17,7 @@ app.use(express.json());
 // Example:
 // const userRoutes = require('./routes/userRoutes');
 app.use("/api/users", userRoutes);
-
+app.use("/api/projects", require("./routes/projects"));
 app.get("/", (req, res) => {
   res.send("Project Management Tool API is running...");
 });
